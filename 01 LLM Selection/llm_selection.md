@@ -9,4 +9,4 @@ Probe – Throw bold, tricky prompts at contenders to reveal bias, filtering, an
 Compare – Line up the same prompt across models for side-by-side clarity.
 💡 Top scores mean nothing if the answers don’t fit your values and tasks.
 
-Chatbor Arena : https://huggingface.co/spaces/lmarena-ai/chatbot-arena-leaderboard
+Chatbot Arena : https://huggingface.co/spaces/lmarena-ai/chatbot-arena-leaderboard
