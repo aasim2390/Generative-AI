@@ -110,76 +110,118 @@ Less Effective:
 "Search for recent news on AI."
 
 More Effective:
-You are a News Aggregator Bot. Your task is to find the top 5 news articles published in the last 24 hours regarding breakthroughs in generative AI.
 
-Available Tools:
-- internet_search
-- article_summarizer
+> You are a News Aggregator Bot. Your task is to find the top 5 news articles published in the last 24 hours regarding breakthroughs in generative AI.
+> Available Tools:
+> - internet_search
+> - article_summarizer
+>
+> Process:
+> 1. Search
+> 2. Summarize
+> 3. Select top 5
+> 4. Return title, source, and summary
 
-Process:
-1. Search
-2. Summarize
-3. Select top 5
-4. Return title, source, and summary
-
+---
 
 ### 4. Chain-of-Thought / ReAct Prompting
 Encourage the agent to think out loud before acting.
 
+---
+
 Prompt Snippet:
 
-"Before you use any tool, state your reasoning for choosing it and the parameters you will use."
+> "Before you use any tool, state your reasoning for choosing it and the parameters you will use."
+
+---
 
 ### 5. Output Formatting and Structure
-Request structured output (JSON, XML, Markdown) for predictable results.
+
+> Request structured output (JSON, XML, Markdown) for predictable results.
+
+---
 
 ### 6. Constraints and Guardrails
+
 Define what the agent should not do.
 
 Prompt Snippet:
 
-"Only use academic or government sources. Do not give financial advice."
+> "Only use academic or government sources. Do not give financial advice."
 
-🧪 Prompt Practice Examples
-Example 1: Travel Planning Agent
-Goal: Plan a 3-day trip to Paris for a solo traveler interested in art and history.
+---
 
-Improved (Agentic) Prompt Includes:
+## Prompt Practice Examples
+> **Example 1: Travel Planning Agent**
+> 
+> **Goal:**
+> Plan a 3-day trip to Paris for a solo traveler interested in art and history.
+>
+>**Improved (Agentic) Prompt Includes:**
+>
+> Persona: "Parisian Pathfinder"
+>
+> Context: Budget, pace, duration
+>
+> Tools: map_service, museum_database, historical_site_info
+> 
+> Instructions: Day planning, logistics, food suggestions, reasoning
+>
+> Constraints: Stay within Paris, include hidden gems
+>
 
-Persona: "Parisian Pathfinder"
+## Travel Planning Agent 🌍
 
-Context: Budget, pace, duration
+| Original Prompt Part                 | What it means for the agent                                                                 | What it helps the agent do                                                                                                      |
+|---------------------------------------|----------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
+| **Goal**                              | Plan a 3-day trip to Paris for a solo traveler interested in art and history.               | This is the main job. The agent knows what it needs to accomplish.                                                              |
+| **Persona: "Parisian Pathfinder"**    | Act like an expert tour guide who knows Paris really well.                                   | This sets the tone. The agent will sound helpful and knowledgeable, not just robotic.                                           |
+| **Context**                           | Consider the traveler's budget, the pace of the trip (how fast they want to go), and duration (3 days). | These are the rules. The agent won't suggest a super expensive hotel if the traveler has a low budget, or pack too many things into one day if they want a relaxed trip. |
+| **Tools**                             | Use a map_service, a museum_database, and a historical_site_info tool.                       | These are the agent's special abilities. It's like giving it a set of apps on a phone to help it find the best routes, museum hours, and facts about famous places. |
+| **Instructions**                      | Plan each day, handle all the trip's logistics, suggest places to eat, and explain why you chose them. | This is the step-by-step guide. It tells the agent exactly what to do, from morning to night, and why its choices are good.     |
+| **Constraints**                       | Only suggest places within Paris, and include some hidden gems (less famous but cool places). | These are the boundaries. The agent knows not to suggest a trip to another city or only list the most famous spots everyone knows about. |
 
-Tools: map_service, museum_database, historical_site_info
 
-Instructions: Day planning, logistics, food suggestions, reasoning
+> **Example 2: Code Generation & Debugging Agent**
+> 
+> **Goal:**
+> Write and debug a Python function.
+>
+> **Improved Prompt Includes:**
+>
+> Persona: "Code Companion"
+>
+> Task 1: Write get_even_numbers
+>
+> Task 2: Debug based on given error
+> 
+> Tools: code_analyzer, python_interpreter
+>
+> Output format for debugging:
+>
+> -Error Analysis
+>
+> -Bug Hypothesis
+>
+> -Proposed Fix
+>
+> -Corrected Code
 
-Constraints: Stay within Paris, include hidden gems
+## Code Generation & Debugging Agent 💻
 
-Example 2: Code Generation & Debugging Agent
-Goal: Write and debug a Python function.
+| Original Prompt Part              | What it means for the agent                                                   | What it helps the agent do                                                                                                      |
+|------------------------------------|-------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
+| **Goal**                           | Write and debug a Python function.                                            | This is the main job. The agent needs to both create code and fix it.                                                            |
+| **Persona: "Code Companion"**      | Act like a helpful coding partner.                                            | The agent will be friendly and helpful, not just spitting out code.                                                              |
+| **Task 1: Write `get_even_numbers`**| First, write a function that finds all the even numbers in a list.            | This is the first, clear task. The agent knows exactly what code to write.                                                       |
+| **Task 2: Debug based on given error** | Second, if I give you a problem with the code, figure out what's wrong and fix it. | This is the second, clear task. The agent knows it needs to switch from writing code to fixing it.                               |
+| **Tools**                          | Use a code_analyzer and a python_interpreter.                                 | These are the agent's special abilities. It's like giving it a "spell check" for code and a "run" button to test if the program works. |
+| **Output Format**                  | When you find an error, explain it in four parts: Error Analysis, Bug Hypothesis, Proposed Fix, and Corrected Code. | This is the required format. The agent knows exactly how to present its answer when it's fixing a problem, making its explanation easy to follow. |
 
-Improved Prompt Includes:
+---
 
-Persona: "Code Companion"
+### ✨ Advanced Considerations
 
-Task 1: Write get_even_numbers
-
-Task 2: Debug based on given error
-
-Tools: code_analyzer, python_interpreter
-
-Output format for debugging:
-
-Error Analysis
-
-Bug Hypothesis
-
-Proposed Fix
-
-Corrected Code
-
-✨ Advanced Considerations
 Few-Shot Prompting – Provide examples of desired behavior.
 
 Self-Correction – Have the agent review and revise.
@@ -188,7 +230,7 @@ Dynamic Prompting – Update prompts in multi-turn tasks.
 
 Tool Creation/Refinement – Let agents help design their tools.
 
-🏁 Conclusion
+### 🏁 Conclusion
 Prompt engineering for agentic AI is both an art and a science.
 It requires a deep understanding of your agent’s capabilities, clear communication of your goals, and an iterative approach to refinement.
 By mastering these techniques, you can unlock the full potential of your AI agents to perform complex tasks autonomously and effectively.
