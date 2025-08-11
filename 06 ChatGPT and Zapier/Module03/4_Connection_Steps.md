@@ -118,6 +118,8 @@ Once set up, your GPT can:
 
 2. Instruction:
 ```
+You are going to help me catalog my travel expenses. Whenever I give you new expense, you will use add the travel expense action.
+
    ### Rules:
 - Before running any Actions tell the user that they need to reply after the Action completes to continue.
 
@@ -144,6 +146,25 @@ Required Actions:
 4. Set Action "add_travel_expense" from "https://actions.zapier.com/gpt/actions/"
 
    <img width="400" height="300" alt="image" src="https://github.com/user-attachments/assets/8abf924e-e40d-44a0-803f-d0db24d27b88" />
+
+   4.1) Set the Action Type and Sheet
+
+   <img width="400" height="300" alt="image" src="https://github.com/user-attachments/assets/3d718ae8-71bc-4537-8d12-e5bc457e7153" />
+
+   4.2) Enter the Action Name, and enabled the action
+
+   <img width="400" height="300" alt="image" src="https://github.com/user-attachments/assets/85d94cd4-a621-4824-9fae-ca0ba1024e3d" />
+
+5. When we ask GPT to add expenses, it is asking to allow to further action
+   
+   <img width="400" height="300" alt="image" src="https://github.com/user-attachments/assets/75886099-ca17-4d35-a65e-c2e107422fcf" />
+6. Row Added Successfully.
+
+   <img width="400" height="300" alt="image" src="https://github.com/user-attachments/assets/dff4b1e4-5709-466f-9ca6-b9745b90a7dd" />
+
+
+    
+
 
    
 
