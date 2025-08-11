@@ -15,6 +15,9 @@ Visit the https://actions.zapier.com/gpt/actions/ <br>
 
 Click on "Get Started" to begin setting up GPT actions within your Zapier account.
 
+<img width="250" height="350" alt="image" src="https://github.com/user-attachments/assets/547a56ef-2b85-4d1a-b7b9-015d401e9ba8" />
+
+
 **(Optional) Step 3: Read the Platform Documentation**
 Go to the https://actions.zapier.com/docs/platform/gpt
 GPT Actions Documentation
