@@ -118,11 +118,11 @@ def main():
 
 ```bash
 Welcome to the Tweet Generator!
-Enter your OpenAI API key: *********
+Enter your OpenAI API key: ··········
 Enter a topic for your tweet (or 'quit' to exit): coffee
 
 Generated Tweet:
-☕ Nothing beats the smell of fresh coffee in the morning — pure happiness in a cup! 🌞
+☕️✨ Life happens, coffee helps! How do you take yours? #CoffeeLovers #FuelYourDay
 
 --------------------------------------------------
 
