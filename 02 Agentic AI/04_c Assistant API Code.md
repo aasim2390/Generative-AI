@@ -282,3 +282,83 @@ print(response)
 - **Messages**: Retrieved and processed for user or Assistant responses.
 - **Utility**: Extract information (e.g., rate of return) from Assistant responses.
 
+---
+
+<img width="700" height="350" alt="image" src="https://github.com/user-attachments/assets/c58c1d89-fedf-47ef-a870-af263d52c358" />
+
+---
+# OpenAI Assistants API – Q&A Notes
+
+---
+
+### Q1: What does the code do?
+
+**A:**
+- Creates an Assistant (Investing Bot) with specific instructions and tools.  
+- Starts a conversation thread and sends a user message (e.g., investment question).  
+- Runs the Assistant on the thread to generate a response.  
+- Checks the run status until the Assistant finishes processing.  
+- Retrieves messages from the thread and extracts information (e.g., rate of return).  
+- Optionally lists, manages, or deletes Assistants.
+
+---
+
+### Q2: Is memory persistent?
+
+**A:**
+- By default, the Assistant remembers the context of a single thread.  
+- Persistent memory across sessions is optional.  
+- The memory size is limited by the model’s token limits (a few thousand tokens per thread).
+
+---
+
+### Q3: What happens if I delete the Assistant?
+
+**A:**
+- The Assistant is deleted.  
+- All associated memory and threads linked to it are also removed.  
+- Any past conversations or context cannot be recovered.
+
+---
+
+### Q4: How are responses retrieved and processed?
+
+**A:**
+- Messages are retrieved using `client.beta.threads.messages.list()`.  
+- You can process them in order or reverse order and extract data using functions (e.g., `extract_rate_of_return`).
+
+---
+
+### Q5: How can multiple Assistants be managed?
+
+**A:**
+- List Assistants:
+  
+```python
+client.beta.assistants.list(order="desc", limit=20)
+```
+- Delete an Assistant:
+  
+```python
+client.beta.assistants.delete(assistant_id)
+```
+
+### Q6 : How communication between multiple Assistants works
+**A:**
+  1. **Separate Assistants:** Each Assistant has its own instructions, tools, and memory. By default, they do not share context.
+  2. **Manual passing of messages:** To `communicate` between Assistants, you retrieve the response from one Assistant and then send it as a user message to another Assistant’s thread.
+
+     Example: Send Assistant A message to Assistant B
+
+```python
+    message_from_A = "Response from Assistant A"
+    message_to_B = client.beta.threads.messages.create(
+    thread_id=thread_B.id,
+    role="user",
+    content=message_from_A)
+```
+    
+  4. **Thread context:** Each Assistant maintains context only within its thread, so you must manually feed messages from one thread to another if you want the second Assistant to “know” the first Assistant’s output.
+  5. **Use cases:** This is useful for multi-step workflows, delegation of tasks, or chaining Assistants with specialized roles.
+
+     <img width="250" height="250" alt="image" src="https://github.com/user-attachments/assets/3b64290b-3809-4ff8-9329-0bba9acb181c" />
