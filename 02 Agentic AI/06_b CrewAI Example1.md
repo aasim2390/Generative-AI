@@ -181,7 +181,97 @@ Markdown(raw_result)  # For notebooks
 
 - Kick off the crew with your data
 
-  
+```bash
+Personalized Debt Management Plan
+1. Current Financial Overview:
+Monthly Income: $5,000
+
+Expenses*:
+
+Fixed Expenses:
+
+Rent: $1,500
+Utilities: $300
+Variable Expenses:
+
+Groceries: $400
+Transportation: $200
+Entertainment: $150
+Other: $450
+Total Expenses: $3,000
+
+Debt Repayment*:
+
+Credit Card:
+
+Balance: $2,000
+Minimum Payment: $60
+Student Loan:
+
+Balance: $15,000
+Minimum Payment: $150
+Total Minimum Debt Repayment: $210
+
+Savings Goal*: 
+500∗∗TotalAllocated∗∗:3,710
+
+Remaining Balance*: $1,290
+
+2. Debt Repayment Strategy:
+Immediate Actions:
+
+Pay Off High-Interest Credit Card Debt: Use $1,050 of the remaining balance to pay off the credit card debt entirely. This action eliminates high-interest payments, which can be around 15-25% annually.
+
+Adjusted Allocation After Credit Card Payoff:
+
+Remaining balance after credit card payoff: $240
+Continue making the minimum student loan payment of $150.
+3. Monthly Surplus Allocation:
+After the credit card payment is completed, you will redirect all remaining monthly surpluses ($1,290) to accelerate your financial goals. Here’s a proposed breakdown:
+
+Savings Goal Completion: Regularly allocate your savings to build your emergency fund (
+500monthlyuntilreaching12,000, which should take 24 months).
+
+Debt Reduction Strategy: Redirect surplus funds towards your student loan after fully addressing immediate credit card debt. Allocate the remainder of your monthly surplus as follows once the credit card is cleared:
+
+$500/month into an aggressive ETF or diversified stock portfolio for potential growth.
+$100/month into a bond fund for stability.
+$690/month more towards aggressive student loan repayments.
+4. Additional Strategies for Faster Debt Reduction:
+Review Discretionary Spending:
+
+Cut down on entertainment and "other" expenses by 15-20%, potentially saving an additional 
+90
+−
+90−120 monthly, which can also be redirected to your debt payments.
+Smart Grocery Shopping:
+
+Implement meal planning, using coupons, and buying in bulk, which could save you an additional $60 monthly.
+Limit Transportation Costs:
+
+Explore public transportation or carpooling options to decrease your transportation budget, saving at least 
+50
+−
+50−100 monthly.
+5. Long-Term Financial Goals:
+Short-Term (1-3 years):
+
+Build an emergency fund covering 3-6 months of expenses (approximately $12,000).
+Aggressively pay down student loan debt while maintaining smaller investments.
+Long-Term (5-20 years):
+
+Save for a home purchase or other significant investments.
+Contribute 10-15% of your income to retirement savings (Roth IRA/401(k)).
+6. Investment Options:
+Once the high-interest debts are settled, consider the following conservative to aggressive strategies based on your risk tolerance:
+Conservative: Invest in bond funds or short-term treasury bonds.
+Moderate: Invest in broad market ETFs (e.g., S&P 500) for balanced growth.
+Aggressive: Invest in individual stocks or high-growth sectors for potential high returns.
+7. Review and Adjust:
+Periodic Reviews: Regularly assess your budget, debt repayment progress, and investment performance quarterly to align with your financial goals.
+Tracking Tools: Utilize budgeting apps or spreadsheets to monitor your spending patterns and adjust as necessary.
+By implementing this structured debt management plan, you can significantly reduce your financial stress related to high-interest debt, while also building a solid foundation for future wealth growth. Remember to remain disciplined and committed to your goals—progress will come with consistency and focus!
+```
 ## 4) Final Output
 
 After running the above code, you will get:
