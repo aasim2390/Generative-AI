@@ -144,3 +144,99 @@ Tools are used **to do the work itself**. Examples include:
 **In short:**  
 - **Tools** help the agent **do its work**.  
 - **Callbacks** help you **respond to what the agent did** or **when something happens**.
+
+---
+
+# Tasks in CrewAI – Notes
+
+## What is a Task?
+A **Task** = A specific job, assignment, or mission for an agent to complete.  
+Each task includes clear instructions and resources (like tools) so the agent understands exactly what needs to be done.  
+Tasks can be simple or complex and sometimes involve teams of agents working together (collaborative tasks).
+
+## Why are Tasks Important?
+- They break down bigger projects into manageable chunks.
+- Each task is organized so the agent knows its job, tools, and what success looks like.
+
+## Key Task Attributes (Features)
+
+| Attribute          | What it Means (Simple Explanation) |
+|-------------------|-----------------------------------|
+| description        | What needs to be done (the goal or summary of the task) |
+| expected_output    | What a successful result should look like (clear outcome or report) |
+| agent              | Who/what will do the task (name of the agent assigned) |
+| tools              | Helpful software/tools the agent can use when working on the task |
+| max_iter           | How many times the agent can retry or refine the task |
+| verbose            | Should the agent give detailed progress updates? |
+| allow_delegation   | Can the agent pass this task to another agent if needed? |
+| callbacks          | Special actions that happen at certain points (like sending notifications) |
+
+### Other Special Attributes
+
+| Attribute          | What it Does (Simple) |
+|-------------------|----------------------|
+| async_execution    | Lets the task run in the background, not making the whole system wait for it to finish—good for big or slow tasks |
+| context            | Can use results from other tasks as extra information |
+| config             | Extra settings for customizing how the task behaves |
+| output_json        | Output will be structured as a JSON file (good for computers to read the data easily; needs certain tech setup) |
+| output_pydantic    | Output follows a special data model (Pydantic); great for strict data rules (needs special setup) |
+| output_file        | Saves the final result to a file (plain text, JSON, or Pydantic—but just one format at a time) |
+| human_input        | Do you need a person to check the output before finishing? Default: No |
+
+## Summary Table
+
+| What is it? | An assignment for an agent, with clear instructions and resources |
+|-------------|--------------------------------------------------------------|
+| Who does it? | One or more agents (sometimes in a team) |
+| What does it need? | Description, tools, the agent to do it, what a good result looks like |
+| Why use it? | To break complex projects into clear, manageable jobs |
+
+## Code
+```python
+task = Task(
+    description='Research and compile a list of best practices for cybersecurity in cloud environments',
+    expected_output='A detailed report outlining the top 10 best practices for securing cloud environments, including explanations and examples.',
+    agent=cybersecurity_agent,
+    tools=[cloud_security_tool, research_tool]
+)
+```
+
+**Remember:**  
+- Tasks give agents step-by-step instructions, tools, and clear expectations for success.  
+- Tasks can be simple, complex, or part of teamwork.  
+- You can further control tasks using extra features—like running them in the background or saving the results to files.  
+
+**In short:**  
+> Tasks = clear, organized jobs for agents, with instructions, resources, and a standard for success!
+
+---
+
+## Can a single task be executed by multiple agents in CrewAI?
+
+**Normally:**  
+- Each task is usually assigned to **one specific agent** at a time using the `agent` attribute.
+
+**But for teamwork:**  
+If you want multiple agents to work together, you have two options:
+
+### Collaborative Tasks
+- Split the work into smaller tasks, with each small task assigned to a different agent.  
+- These tasks can share information using the `context` attribute.
+
+### Processes and Crews
+- Organize agents into a **crew** and use CrewAI’s built-in teamwork and process management features.  
+- Allows agents to delegate and pass tasks to each other, so it feels as if multiple agents are tackling the same task.
+
+**So:**  
+- **Directly:** One task = one agent  
+- **Indirectly (with collaboration):** Coordinate multiple agents to work on parts of a bigger project using several connected tasks or delegation.
+
+### Summary Table
+
+| Situation | Possible in CrewAI? |
+|-----------|-------------------|
+| One Task, Multiple Agents (directly) | ❌ Not as a standard option |
+| One Project, Multiple Tasks, Multiple Agents (collaborative) | ✅ Yes, using crews, context, and delegation |
+
+**In short:**  
+> A single task is usually done by one agent, but multiple agents can work together by splitting the job into several smaller, connected tasks.
