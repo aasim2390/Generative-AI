@@ -240,3 +240,50 @@ If you want multiple agents to work together, you have two options:
 
 **In short:**  
 > A single task is usually done by one agent, but multiple agents can work together by splitting the job into several smaller, connected tasks.
+
+---
+
+# Tools in CrewAI – Notes
+
+## What is a Tool?
+A **Tool** is a special ability or function that an agent can use to help complete a task.  
+Tools let agents do specific jobs better, like searching the web, reading files, analyzing data, or generating images.  
+Think of a tool like a useful app or gadget the agent gets to use.
+
+## Why are Tools Important?
+- Tools make agents more powerful and flexible.  
+- With the right tool, an agent can work much faster and do more complicated things.  
+- Developers can use pre-made tools, or build custom ones for special jobs.
+
+## Where Do Tools Come From?
+- **CrewAI Toolkit:** Built-in tools that come with CrewAI.  
+- **LangChain Tools:** Tools from another framework that works well with CrewAI.  
+- **Custom Tools:** Developers can also make custom tools if needed.
+
+## Key Features of Tools
+- **Integrated:** Fit right into agent workflows.  
+- **Customizable:** You can use existing tools or create new ones for your needs.  
+- **Error Handling:** Tools have built-in systems to deal with problems, so agents don't get stuck.  
+- **Caching:** Tools are smart—they save results, so if the same job is needed again, it's faster.
+
+## Examples of Tools in CrewAI
+
+| Tool Name           | What It Does |
+|--------------------|--------------|
+| BrowserbaseLoadTool | Lets agent interact with web browsers & gather data |
+| CodeDocsSearchTool  | Searches through code documentation & manuals |
+| CSVSearchTool       | Searches and works with data in CSV files |
+| DALL-E Tool         | Creates images using the DALL-E AI model |
+| DOCXSearchTool      | Searches inside MS Word (DOCX) files |
+| PDFSearchTool       | Searches inside PDF files |
+| ScrapeWebsiteTool   | Collects (scrapes) lots of data from websites |
+| XMLSearchTool       | Searches through XML files (a type of structured data) |
+
+## Summary
+- **Tools = Superpowers for agents**, helping them do tasks like searching, analyzing, creating, and collecting data easily.  
+- Tools are vital—they make agents smarter, faster, and more versatile.  
+- Agents can use **one or more tools** as needed when working on tasks.  
+
+**In short:**  
+> Think of an agent as a worker and tools as the specialized gadgets they use to get their work done more efficiently!
+---
