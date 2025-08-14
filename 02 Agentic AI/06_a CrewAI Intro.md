@@ -242,3 +242,54 @@ crew = Crew(
 
 **Key Takeaway:**  
 > CrewAI lets you manage AI “workers” like a real team, combining specialized skills, tools, and coordination for efficient, collaborative problem-solving.
+
+---
+
+## Memory Sharing in CrewAI
+
+### Simple Answer
+Yes, memory **can be shared among agents**, depending on your crew and memory setup.
+
+### How Agent Memory Works
+
+- **Short-Term Memory:**  
+  - Usually **individual** to an agent  
+  - Remembers only recent actions or conversations  
+
+- **Long-Term / Contextual / Entity Memory:**  
+  - Can be **shared across a crew**  
+  - Lets agents access what others have learned or done  
+  - Improves teamwork and consistency  
+
+### Shared Memory Example
+
+- Agents working on the same project can share:
+  - Project context  
+  - Important facts or outputs  
+  - Past conversations  
+- This allows **cooperation, consistency, and context-aware decision-making**  
+
+### Why Share Memory?
+
+- Better **team coordination**  
+- Avoid repeated work  
+- Produce more **accurate and context-aware responses**
+
+
+### Can Agents Have Private Memory?
+
+- **Yes.**  
+- Some agents can have memory that **other agents cannot see**  
+- Useful for personal tasks or sensitive information  
+
+
+### Summary Table
+
+| Memory Type     | Who Can Access           | Typical Use                        |
+|-----------------|------------------------|-----------------------------------|
+| Private Memory  | One agent               | Personal tasks or info             |
+| Shared Memory   | Multiple agents (crew)  | Teamwork, context, collaboration   |
+
+
+### Key Takeaway
+> By default, CrewAI allows shared memory for teamwork, but you can also give agents private memory. Most crews share memory so all agents stay on the same page.
