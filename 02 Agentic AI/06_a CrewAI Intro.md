@@ -293,3 +293,82 @@ Yes, memory **can be shared among agents**, depending on your crew and memory se
 
 ### Key Takeaway
 > By default, CrewAI allows shared memory for teamwork, but you can also give agents private memory. Most crews share memory so all agents stay on the same page.
+
+---
+
+## CrewAI Step-by-Step Flow
+
+### 1. Crew is Created
+- You create a **crew** (team) and add several agents to it.
+
+### 2. Tasks are Added
+- The crew receives a **list of tasks** to complete.
+
+### 3. Process is Chosen
+- Select a **process** (e.g., sequential or hierarchical)  
+- Determines **how agents get tasks** and in what order.
+
+### 4. Agents Get and Work on Tasks
+- Each agent is assigned specific tasks according to the process.  
+- Agents use their **skills and tools** to complete the tasks.
+
+### 5. Agents Use Memory
+- Agents **read from memory** to recall useful past information.  
+- Agents **write new information** into memory to make the team smarter.
+
+### 6. Tasks Completed
+- Agents finish their tasks and **results are saved**.  
+- Important outcomes are updated in the **crew’s memory**.
+
+### 7. Crew Delivers Results
+- The crew provides **final output**, including all completed tasks and updated memory.
+
+---
+
+### Diagram Flow (Text Version)
+```plaintext
+[ Crew ]
+   |
+   v
+[ Agents (team members) ]
+   |
+   v
+[ Tasks List ]
+   |
+   v
+[ Process (task assignment strategy) ]
+   |
+   v
+[ Agents work on tasks (using tools) ]
+   |
+   | <—> [ Memory accessed and updated by agents ]
+   v
+[ Task Results & Updated Memory ]
+   |
+   v
+[ Crew outputs final results ]
+```
+
+---
+
+### Quick Summary Table
+
+| Concept | Role in the Flow |
+|---------|-----------------|
+| Crew    | The team that organizes everything |
+| Agents  | Team members who actually perform the tasks |
+| Task    | Jobs to be completed by agents |
+| Process | The plan for assigning tasks to agents |
+| Memory  | Information store accessed and updated by agents |
+
+---
+
+### Real-Life Analogy
+Your **project group (crew)** assigns each student (**agent**) certain jobs (**tasks**).  
+There’s a **plan (process)** for who works when, and everyone keeps **notes and progress (memory)** that anyone in the group can check.
+
+---
+
+**In short:**  
+> Crew builds the team, agents do the tasks guided by a process, and all use and update memory as they work!
+
