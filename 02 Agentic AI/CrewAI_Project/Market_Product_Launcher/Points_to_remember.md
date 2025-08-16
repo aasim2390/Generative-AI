@@ -72,20 +72,25 @@ market_research_task = Task(
 ```
 
 ---
+## async_execution & human_input
 
 Imagine you're baking a cake. You have a few main jobs to do: mixing the batter, baking the cake, and decorating it.
 
-async_execution=False is like deciding you have to finish mixing the batter completely before you can put the cake in the oven. It's a step-by-step process where one step can't start until the previous one is 100% done. It ensures the whole team waits until the content creator is finished with their part of the project before moving on.
+**async_execution=False** is like deciding you have to finish mixing the batter completely before you can put the cake in the oven. 
+It's a step-by-step process where one step can't start until the previous one is 100% done. 
+It ensures the whole team waits until the content creator is finished with their part of the project before moving on.
 
-human_input=True is like pausing after the cake is decorated to get approval from a friend or a family member before serving it. It means the process will stop and wait for a person to give feedback or permission. The AI won't finalize the content until a human has reviewed it, which is a great way to ensure the final product is high quality and error-free.
+**human_input=True** is like pausing after the cake is decorated to get approval from a friend or a family member before serving it. 
+It means the process will stop and wait for a person to give feedback or permission. 
+The AI won't finalize the content until a human has reviewed it, which is a great way to ensure the final product is high quality and error-free.
 
 
 ```python
 content_creation_task = Task(
    description="Create content for the {product_name} launch, including blog posts, social media updates, and promotional videos.",
     expected_output="A collection of content pieces ready for publication.",
-    human_input=True,
-    async_execution=False,  # Change to synchronous
+    human_input=True, # Take human input
+    async_execution=False,  # Wait for completion
     output_file="content_plan.txt",
     agent=content_creator
 )
