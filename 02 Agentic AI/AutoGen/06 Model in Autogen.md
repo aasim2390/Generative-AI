@@ -17,14 +17,34 @@ _source - https://microsoft.github.io/autogen/stable/user-guide/agentchat-user-g
 
 ```bash
 pip install "autogen-ext[openai]"
+pip install "autogen-agentchat"
 ```
 
 ```python
+import os
 from autogen_ext.models.openai import OpenAIChatCompletionClient
+from autogen_core.models import UserMessage
+from autogen_agentchat.agents import AssistantAgent
+
+
+os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
 
 openai_model_client = OpenAIChatCompletionClient(
-    model="gpt-4o-2024-08-06",
-    # api_key="sk-...", # Optional if you have an OPENAI_API_KEY environment variable set.
+    model="gpt-4o-mini",
+    api_key=OPENAI_API_KEY
 )
+
+# UserMessage
+response = await openai_model_client.create([UserMessage(content="Who are you?", source="user")])
+print(response.content)
+
+#AssistantAgent
+agent = AssistantAgent(
+    name='assistant',
+    model_client=openai_model_client,
+    system_message='You are a helpful assistant',
+)
+result = await agent.run(task='Capital of France?')
+print(result.messages[-1].content)
 
 ```
