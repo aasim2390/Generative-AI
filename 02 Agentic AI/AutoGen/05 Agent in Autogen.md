@@ -59,6 +59,7 @@ print(result.messages[-1].content)
 
 <img width="682" height="427" alt="image" src="https://github.com/user-attachments/assets/f9592596-14dc-469a-8c07-ae1670498b00" />
 
+- We can either run a single agent directly or run it in a loop by using Single Agent Team.
 
 ---
 
