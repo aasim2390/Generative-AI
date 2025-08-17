@@ -48,3 +48,42 @@ result = await agent.run(task='Capital of France?')
 print(result.messages[-1].content)
 
 ```
+
+
+### Difference between UserMessage vs AssistantAgent
+
+#### 1. `UserMessage`
+
+- Represents a single message in a conversation.
+- It is like manually saying: “Here is what the user typed, send it to the model.”
+- You directly call the model client with the message.
+
+**Example in your code:**
+```python
+response = await openai_model_client.create([
+    UserMessage(content="Who are you?", source="user")
+])
+
+```
+
+→ The model just answers that one message.
+
+#### 2. `AssistantAgent`
+
+- A stateful agent that manages multi-turn conversations.
+- Wraps the model client with a role/persona (through system_message).
+- Can remember previous messages and maintain context across turns.
+- Supports features like planning, memory, tools, and multi-agent communication.
+
+**Example in your code:**
+```python
+agent = AssistantAgent(
+    name='assistant',
+    model_client=openai_model_client,
+    system_message='You are a helpful assistant',
+)
+result = await agent.run(task='Capital of France?')
+
+```
+
+→ The agent handles the conversation with context, roles, and history.
