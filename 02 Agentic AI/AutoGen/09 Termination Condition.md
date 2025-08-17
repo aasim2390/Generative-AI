@@ -210,3 +210,58 @@ round_robin_team = RoundRobinGroupChat(
 await Console(round_robin_team.run_stream(task="Write a unique, Haiku about the weather in Paris"))
 
 ```
+
+# Understanding Termination Conditions in AutoGen
+
+In **AutoGen**, termination conditions are **stateful**.  
+This means they **remember information during a run** — for example:
+
+- `MaxMessageTermination(max_messages=3)`  
+  Keeps track of how many messages have been exchanged.  
+  After the 3rd message, it triggers and ends the chat.
+
+- `TextMentionTermination("APPROVE")`  
+  Keeps checking if the word **APPROVE** appears in any agent's message.  
+  Once it does, it triggers and ends the chat.
+
+---
+
+## Key Point: Reset After Each Run
+Even though termination conditions track information,  
+they **reset automatically** after each run (`run()` or `run_stream()`).
+
+- Example:
+  1. Run 1: If you set `max_messages=3`, it counts 3 messages and stops.  
+  2. Run 2: The counter **starts fresh** again at 0.  
+     It does not “remember” that 3 messages were already used before.
+
+---
+
+## Why This Matters
+- You don’t need to manually reset termination conditions.  
+- Each new run is **independent** of the previous run.  
+- This ensures fairness and prevents “carry-over” from earlier tasks.
+
+---
+
+## Analogy 
+Think of a **stopwatch**:
+- During one race, it counts time until you stop it.  
+- When the race is over, the stopwatch resets to zero automatically.  
+- For the next race, you start fresh.  
+
+Termination conditions work the same way!
+
+### Example:
+
+```python
+max_msg_termination = MaxMessageTermination(max_messages=3)
+
+# First run (it allows 3 messages before stopping)
+await round_robin_team.run_stream(task="First conversation")
+# Condition resets here automatically
+
+# Second run (again allows 3 messages, because reset happened)
+await round_robin_team.run_stream(task="Second conversation")
+
+```
