@@ -163,3 +163,95 @@ APPROVE
 
 
 ```
+
+
+## Code - Review in Loop
+
+```python
+import asyncio
+from autogen_agentchat.agents import AssistantAgent
+from autogen_ext.models.openai import OpenAIChatCompletionClient
+from autogen_agentchat.messages import TextMessage
+from autogen_agentchat.teams import RoundRobinGroupChat
+from autogen_agentchat.conditions import TextMentionTermination
+from autogen_agentchat.ui import Console
+
+# ------------------------
+# Step 1: Create the model client
+# ------------------------
+# This is the connection to OpenAI's GPT model (gpt-4o-mini in this case).
+model_client = OpenAIChatCompletionClient(model="gpt-4o-mini")
+
+# ------------------------
+# Step 2: Create the agents
+# ------------------------
+# Each AssistantAgent has:
+# - a name
+# - a description
+# - the model client (so they can use GPT)
+# - a system_message that tells them how to behave
+
+assistant = AssistantAgent(
+    name='Writer',
+    description='you are a great writer',
+    model_client=model_client,
+    system_message='You are a really helpful writer who writes in less then 30 words.'
+)
+
+assistant2 = AssistantAgent(
+    name='Reviewer',
+    description='you are a great reviewer',
+    model_client=model_client,
+    system_message='You are a really helpful reviewer who writes in less then 30 words..'
+)
+
+assistant3 = AssistantAgent(
+    name='Editor',
+    description='you are a great editor',
+    model_client=model_client,
+    system_message='You are a really helpful editor who writes in less then 30 words..'
+)
+
+# ------------------------
+# Step 3: Create the team
+# ------------------------
+# RoundRobinGroupChat means agents take turns one by one (round-robin style).
+# - participants: the 3 agents we made
+# - max_turns: how many turns they can talk before stopping
+team = RoundRobinGroupChat(
+    participants=[assistant, assistant2, assistant3],
+    max_turns=3
+)
+
+# ------------------------
+# Step 4: Set the first task
+# ------------------------
+# This is the "prompt" that will be given to the agents
+task = ' Write a 3 line poem about sky'
+
+# ------------------------
+# Step 5: Interactive loop
+# ------------------------
+# Keep running until the user types "exit"
+while True:
+    # run_stream → runs the chat between the agents as a stream
+    stream = team.run_stream(task=task)
+
+    # Console → displays the streaming conversation in the terminal
+    await Console(stream)
+  
+    # Ask the user for feedback after the agents finish
+    feedback = input('Please Provide your feedback (type "exit" to stop)')
+
+    # If user types exit → break the loop
+    if(feedback.lower().strip() == 'exit'):
+        break
+    
+    # Otherwise → the new feedback becomes the next task
+    task = feedback
+
+```
+### In short
+This script creates a mini debate team of 3 AI agents (Writer, Reviewer, Editor).
+They take turns (round robin) working on a given task (like writing a poem).
+After each round, the user gives feedback. If the user types “exit,” the loop ends.
