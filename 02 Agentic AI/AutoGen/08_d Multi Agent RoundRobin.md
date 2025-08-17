@@ -184,40 +184,47 @@ TaskResult(messages=[TextMessage(id='098dfea9-2761-48e1-945d-9a00f6dcc02a', sour
 ## 🔹 Code Example
 
 ```python
-import asyncio
-from autogen_agentchat.agents import AssistantAgent
-from autogen_agentchat.teams import RoundRobinGroupChat
-from autogen_agentchat.conditions import MaxMessageTermination
-from autogen_ext.models.openai import OpenAIChatCompletionClient
-from autogen_agentchat.ui import Console
+import asyncio  # Provides tools to run asynchronous code (like async/await)
+from autogen_agentchat.agents import AssistantAgent  # Import AssistantAgent class to define agents
+from autogen_agentchat.teams import RoundRobinGroupChat  # Import team type that makes agents talk in round-robin style
+from autogen_agentchat.conditions import MaxMessageTermination  # Import termination condition to stop after fixed turns
+from autogen_ext.models.openai import OpenAIChatCompletionClient  # Import OpenAI client wrapper for chat completion
+from autogen_agentchat.ui import Console  # Console helper to print agent messages in terminal
 
-# ​​​ Initialize the model client
+# ​​​ Initialize the model client (this connects to OpenAI API with your key & model)
 model_client = OpenAIChatCompletionClient(model="gpt-4o-mini", api_key=OPENAI_API_KEY)
 
 # 2️⃣ Create Assistant agent
 assistant = AssistantAgent(
-        "Assistant",
-        model_client=model_client,
-        system_message="You are a helpful assistant. Provide clear answers to questions."
+        "Assistant",  # Name of the agent
+        model_client=model_client,  # Connect this agent to the OpenAI model client
+        system_message="You are a helpful assistant. Provide clear answers to questions."  # Role/instructions for the agent
     )
 
 # 3️⃣ Create Critic agent
 critic = AssistantAgent(
-        "Critic",
-        model_client=model_client,
-        system_message="You are a critic. Review the assistant's answers and suggest improvements or corrections."
+        "Critic",  # Name of this second agent
+        model_client=model_client,  # Same model client (could be different if needed)
+        system_message="You are a critic. Review the assistant's answers and suggest improvements or corrections."  
+        # This role is to act like a reviewer/critic for assistant's answers
     )
 
-# 4️⃣ Termination: stop after 4 turns (Assistant + Critic)
+# 4️⃣ Termination condition: stop after 4 messages (2 from Assistant + 2 from Critic)
 termination = MaxMessageTermination(max_messages=4)
 
+# Task for the agents to discuss/answer
 task = "Explain why the sky is blue in simple terms."
 
-# 5️⃣ Create RoundRobin team
+# 5️⃣ Create a RoundRobin team with assistant and critic
+# This means Assistant speaks → Critic replies → Assistant again → Critic again → (until termination condition is met)
 team = RoundRobinGroupChat([assistant, critic], termination_condition=termination)
 
+# 6️⃣ Run the conversation in console (stream messages as they are generated)
 await Console(team.run_stream(task=task))
+
+# 7️⃣ Close the model client connection (clean up resources after conversation is done)
 await model_client.close()
+
 ```
 
 
@@ -246,9 +253,14 @@ At sunrise and sunset, the sky can look orange or red because the sunlight has t
 TaskResult(messages=[TextMessage(id='b29b49cf-f8b0-45c7-af30-f563369619b6', source='user', models_usage=None, metadata={}, created_at=datetime.datetime(2025, 8, 17, 13, 41, 25, 980422, tzinfo=datetime.timezone.utc), content='Explain why the sky is blue in simple terms.', type='TextMessage'), TextMessage(id='563c092d-4c5e-4cb3-860b-015f639e9529', source='Assistant', models_usage=RequestUsage(prompt_tokens=34, completion_tokens=78), metadata={}, created_at=datetime.datetime(2025, 8, 17, 13, 41, 27, 825361, tzinfo=datetime.timezone.utc), content="The sky looks blue because of a process called scattering. When sunlight enters the Earth's atmosphere, it hits tiny particles and gases in the air. Sunlight is made up of many colors, and each color has a different wavelength. Blue light has a shorter wavelength, so it gets scattered in all directions more than other colors. This scattering makes the sky appear blue to our eyes during the day.", type='TextMessage'), TextMessage(id='64d69d94-6296-4ca5-8bfc-e040a8387011', source='Critic', models_usage=RequestUsage(prompt_tokens=122, completion_tokens=244), metadata={}, created_at=datetime.datetime(2025, 8, 17, 13, 41, 31, 428259, tzinfo=datetime.timezone.utc), content='The explanation provided is quite clear and captures the essence of why the sky appears blue. However, there are a few areas that could be improved for simplicity and clarity:\n\n1. **Simplify Vocabulary**: The term "scattering" might be too technical for some audiences. Consider using "spread out" or "bounced around" to make it more relatable.\n\n2. **Add a Visual Element**: A brief mention of how this phenomenon relates to the colors of a rainbow could help provide a more comprehensive understanding.\n\n3. **Contextual Comparison**: Including a comparison to other times when the sky changes color (like sunrise and sunset) could help illustrate why the blue sky occurs during the day specifically.\n\nRevised explanation: \n"The sky looks blue because of a process where sunlight gets spread out when it hits tiny particles in the air. Sunlight has many colors, like red, green, and blue. The blue light gets bounced around more than the other colors because it travels in shorter waves. That\'s why, during the day, we see a blue sky. At sunrise and sunset, the sky can look orange or red because the sunlight has to pass through more air, which scatters the blue light away."', type='TextMessage'), TextMessage(id='b55a9d16-2457-4bcd-acd6-1390109c8a0f', source='Assistant', models_usage=RequestUsage(prompt_tokens=367, completion_tokens=129), metadata={}, created_at=datetime.datetime(2025, 8, 17, 13, 41, 33, 759535, tzinfo=datetime.timezone.utc), content='Thank you for the feedback! Here’s a revised explanation incorporating your suggestions:\n\n"The sky looks blue because of a process where sunlight gets spread out when it hits tiny particles in the air. Sunlight is made up of many colors, like red, green, and blue. The blue light gets bounced around more than the other colors because it travels in shorter waves. That’s why, during the day, we see a blue sky. \n\nAt sunrise and sunset, the sky can look orange or red because the sunlight has to pass through more air. This means that most of the blue light gets scattered away, allowing the warmer colors to shine through."', type='TextMessage')], stop_reason='Maximum number of messages 4 reached, current message count: 4')
 
 ```
+### Key Insight from Output: 
+
+> This output shows how multi-agent collaboration can refine an explanation: the Assistant provides an initial answer, the Critic improves clarity and accessibility,
+> and the Assistant revises accordingly. The process demonstrates how an iterative, feedback-driven workflow leads to a clearer, more audience-friendly explanation.
+> 
 ## 🔹 How It Works
 
 - **Turn 1** → Assistant: Answers the question.
 - **Turn 2** → Critic: Reviews the assistant’s answer and suggests improvements.
-- **Termination:** MaxTurnsTermination ensures the team stops after 2 turns.
+- **Termination:** MaxTurnsTermination ensures the team stops after 4 turns.
 - **Collaboration:** Each agent uses the **shared context** to see previous messages.
