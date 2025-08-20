@@ -47,7 +47,8 @@ LangChain provides different parsers depending on the required output:
 
 * **Definition:** Returns the model output as a plain string.
 * **When to use:** If you just need text.
-* **StrOutputParser** : This is the simplest parser, as it just takes the string output from the language model and returns it as is. It's useful when you don't need to transform the output.
+* This is the simplest parser, as it just takes the string output from the language model and returns it as is.
+* It's useful when you don't need to transform the output.
   
 * **Example:**
 
@@ -103,7 +104,8 @@ LangChain provides different parsers depending on the required output:
   # {'title': 'Inception', 'year': 2010}
   ```
 
-  * This parser expects the language model's output to be a valid JSON string. It then parses this string into a Python dictionary.
+  * This parser expects the language model's output to be a valid JSON string.
+  * It then parses this string into a Python dictionary.
   
   ```python
   import json
