@@ -111,44 +111,41 @@ print(structured_llm.invoke("Tell me a cat joke"))
 
 ✅ Example 2: Optional Field (TypedDict)
 ```python
-# First, we import some special tools we'll need for this program.
-# `TypedDict` is like creating a recipe card that tells us exactly what
-# ingredients (or in this case, data) our output should have.
-# `Annotated` lets us add a little extra note or description to our ingredients.
-# `NotRequired` is a new tool we're adding to say a field is optional.
+
+# We bring in some helpful tools from Python:
+# - TypedDict: lets us make a "blueprint" for data (like a form).
+# - Annotated: lets us add a short description to each piece of data.
+# - NotRequired: marks something as optional (not always needed).
 from typing_extensions import TypedDict, Annotated, NotRequired
 
-# We also need to import the `ChatOpenAI` tool, which is what we use to talk to
-# the AI model. Think of it as a connection to a very smart friend.
+# We also bring in ChatOpenAI, which is how we talk to the AI model.
+# Think of it like a phone line to chat with a really smart robot.
 from langchain_openai import ChatOpenAI
 
-# Here, we set up our smart friend, the AI. We're telling it to use a
-# specific model called "gpt-4o-mini", which is a version of the AI.
+# Here we create our AI "friend". We're choosing which brain it should use:
+# "gpt-4o-mini" is a smaller but still smart version of the AI.
 llm = ChatOpenAI(model="gpt-4o-mini")
 
-# Now, we create our "recipe card" for a movie.
-# We're defining a new type called `MovieDict`.
-# It must have three parts:
-# 1. `title`: The title of the movie.
-# 2. `year`: The year the movie was released.
-# 3. `director`: The director of the movie. We use `NotRequired` here to
-#    tell the AI that this field is optional, and it's okay if it doesn't
-#    provide this information.
-class MovieDict(TypedDict, total=False):  # total=False => fields optional by default
+# Now we make a "blueprint" for how movie info should look.
+# This is called MovieDict.
+# Because we used `total=False`, all the fields inside are optional
+# (we can give 1, 2, or all 3 pieces of info, and it still works).
+class MovieDict(TypedDict, total=False):
+    # Movie title (string of text)
     title: Annotated[str, "The name of the movie"]
+    # Year the movie was released (whole number)
     year: Annotated[int, "Release year"]
-    director: Annotated[str, "The director name"]   # Optional automatically
+    # Director's name (string of text)
+    director: Annotated[str, "The director name"]
 
-
-# This is the most important part! We're telling the AI that when we ask it
-# to do something, we want the result to follow our `MovieDict` recipe card.
-# This ensures the output is always organized in the same way.
+# Next, we connect our AI with the MovieDict blueprint.
+# This tells the AI: "Whenever you answer, give it back in this exact format."
 structured_llm = llm.with_structured_output(MovieDict)
 
-# Finally, we ask our newly configured AI to "Tell me about Titanic".
-# Because we used `with_structured_output`, the AI knows to give us the
-# movie details in the exact format we defined earlier.
-# The `print()` command then displays the result on the screen.
+# Finally, we ask our AI friend: "Tell me about Titanic."
+# Because we set the blueprint, the answer will come back neatly organized
+# into title, year, and director.
+# print() just shows the result on the screen.
 print(structured_llm.invoke("Tell me about Titanic"))
 
 ```
@@ -165,43 +162,40 @@ print(structured_llm.invoke("Tell me about Titanic"))
 
 ✅ Example 3: Pydantic with Default & Optional
 ```python
-# First, we import the tools we'll need from the `pydantic` library.
-# `BaseModel` is a powerful tool for creating organized data structures.
-# Think of it as a blueprint for how our data should look.
-# `Field` lets us add extra details to our blueprint, like a description or a default value.
+# We bring in tools from the pydantic library:
+# - BaseModel: lets us make a "blueprint" (a fixed shape) for data.
+# - Field: lets us add details like a description or a backup value.
 from pydantic import BaseModel, Field
 
-# We also need to import the `ChatOpenAI` tool to connect to the AI model.
-# This is like our connection to a very smart friend.
+# We also bring in ChatOpenAI, which is our way to talk to the AI.
+# Think of it as a hotline to chat with a really smart robot.
 from langchain_openai import ChatOpenAI
 
-# Here, we set up our smart friend, the AI, telling it to use a
-# specific model called "gpt-4o-mini".
+# Here we set up our AI "friend" and tell it which brain to use.
+# "gpt-4o-mini" is a smaller but still very smart version of the AI.
 llm = ChatOpenAI(model="gpt-4o-mini")
 
-# Now, we create our "blueprint" for a book. We're defining a new class
-# called `Book` that uses `BaseModel`.
-# This blueprint tells the AI exactly what information we want about a book.
+# Now we create a "blueprint" for books.
+# We call this class Book, and it uses BaseModel to stay organized.
+# This tells the AI exactly what info we want when we ask about a book.
 class Book(BaseModel):
-    # `title` is a required field and must be a string.
+    # Title of the book (must always be given, it's required).
     title: str
-    # `author` is also a required field and must be a string.
+    # Author of the book (also required).
     author: str
-    # `pages` has a default value of 100 if the AI can't find a specific number.
-    # The `Field` tool also adds a clear description of what this field is for.
+    # Number of pages. If the AI doesn’t know, it will just use 100 by default.
     pages: int = Field(default=100, description="Default 100 if not given")
-    # `publisher` is an optional field. The `str | None` part means it can be
-    # a string (the publisher's name) or `None` if the information isn't available.
-    publisher: str | None = None  # Optional, Default value is None
+    # Publisher of the book. This is optional.
+    # It can be a text (name of publisher) or None (nothing given).
+    publisher: str | None = None
 
-# This is the most important part! We're telling the AI that when we ask it
-# to do something, we want the result to follow our `Book` blueprint.
-# This ensures the output is always organized and predictable.
+# Next, we connect our AI with the Book blueprint.
+# This tells the AI: "Whenever you answer, give it back in this exact book format."
 structured_llm = llm.with_structured_output(Book)
 
-# Finally, we ask our newly configured AI about "The book is Harry Potter by J.K. Rowling".
-# The AI will try to fill in our `Book` blueprint with the information from this sentence.
-# The `print()` command then displays the resulting structured data.
+# Finally, we ask the AI: "The book is Harry Potter by J.K. Rowling."
+# The AI will fill out our Book blueprint with the right info.
+# print() shows the result neatly on the screen.
 print(structured_llm.invoke("The book is Harry Potter by J.K. Rowling"))
 
 ```
@@ -221,45 +215,43 @@ print(structured_llm.invoke("The book is Harry Potter by J.K. Rowling"))
 
 ✅ Example 4: Optional + Validation (Pydantic)
 ```python
-# First, we import the tools we'll need from the `pydantic` library - !pip install pydantic[email] -q
-# `BaseModel` is a powerful tool for creating organized data structures.
-# Think of it as a blueprint for how our data should look.
-# `Field` lets us add extra details to our blueprint, like a description or a default value.
-# `EmailStr` is a special type that ensures a string is a valid email address.
+# First, we install and import some tools from the pydantic library:
+# - BaseModel: helps us make a "blueprint" (form) for our data.
+# - Field: lets us set rules or default values for data.
+# - EmailStr: makes sure a piece of text is a real email address.
 from pydantic import BaseModel, Field, EmailStr
 
-# We also need to import the `ChatOpenAI` tool to connect to the AI model.
-# This is like our connection to a very smart friend.
+# We also bring in ChatOpenAI, which is our way to talk to the AI.
+# Think of it like a hotline to a very smart robot.
 from langchain_openai import ChatOpenAI
 
-# Here, we set up our smart friend, the AI, telling it to use a
-# specific model called "gpt-4o-mini".
+# Here we create our AI "friend" and choose which brain it should use.
+# "gpt-4o-mini" is a smaller but still smart version of the AI model.
 llm = ChatOpenAI(model="gpt-4o-mini")
 
-# Now, we create our "blueprint" for user information. We're defining a new class
-# called `UserInfo` that uses `BaseModel`.
-# This blueprint tells the AI exactly what information we want about a user.
+# Now we build a "blueprint" for user information.
+# We call it UserInfo, and it uses BaseModel to stay neat and organized.
 class UserInfo(BaseModel):
-    # `name` is a required field and must be a string.
+    # Name of the user (this is required and must be text).
     name: str
-    # `email` is an optional field. `EmailStr | None` means it can be a valid
-    # email string or `None`.
-    email: EmailStr | None = None  # Optional but must be valid if present
-    # `age` has a default value of 18. We use `Field` to add constraints:
-    # `ge=0` means the value must be "greater than or equal to" 0.
-    # `le=120` means the value must be "less than or equal to" 120.
+    # Email of the user. This is optional.
+    # If given, it must look like a real email (example: test@mail.com).
+    email: EmailStr | None = None
+    # Age of the user. If not given, it will be set to 18 by default.
+    # ge=0 means the age must be 0 or more.
+    # le=120 means the age cannot be more than 120.
     age: int = Field(default=18, ge=0, le=120)
 
-# This is the most important part! We're telling the AI that when we ask it
-# to do something, we want the result to follow our `UserInfo` blueprint.
-# This ensures the output is always organized and predictable.
+# Next, we connect our AI with the UserInfo blueprint.
+# This tells the AI: "Whenever you answer, return the info in this format."
 structured_llm = llm.with_structured_output(UserInfo)
 
-# Finally, we ask our newly configured AI about "My name is Alice".
-# The AI will try to fill in our `UserInfo` blueprint with the information
-# from this sentence. It will fill in the `name` and use the default values
-# for `age` and `email` since they aren't provided in the prompt.
-# The `print()` command then displays the resulting structured data.
+# Finally, we ask the AI: "My name is Alice."
+# The AI will fill out the UserInfo form:
+# - name = "Alice"
+# - email = None (since no email was given)
+# - age = 18 (the default)
+# print() shows the filled form on the screen.
 print(structured_llm.invoke("My name is Alice"))
 
 ```
@@ -277,19 +269,29 @@ print(structured_llm.invoke("My name is Alice"))
 
 ✅ Example 5: JSON Schema with Default
 ```python
+# Here we create a "schema" (which is just a set of rules for data).
+# Think of it like a form that tells the AI exactly how car info should look.
+
 schema = {
-  "title": "CarInfo",  #Car Info gaves error, CarInfo working
-  "type": "object",
-  "properties": {
-    "brand": {"type": "string"},
-    "model": {"type": "string"},
-    "year": {"type": "integer", "default": 2020},  # Default year
-    "color": {"type": "string"}                    # Optional
+  "title": "CarInfo",  # The name of our form (CarInfo). "Car Info" with space gave an error.
+  "type": "object",    # The data should come back as an "object" (like a dictionary).
+  "properties": {      # Here we define the details (fields) about the car:
+    "brand": {"type": "string"},   # Brand must be text (example: "Tesla").
+    "model": {"type": "string"},   # Model must be text (example: "Model S").
+    "year": {"type": "integer", "default": 2020},  # Year must be a number, default = 2020 if missing.
+    "color": {"type": "string"}    # Color is optional, but if given, it must be text.
   },
+  # These are required fields (must always be given).
   "required": ["brand", "model"]
 }
 
+# Now we connect our AI with this schema.
+# This tells the AI: "Whenever you answer, make sure it follows this car form."
 structured_llm = llm.with_structured_output(schema)
+
+# Finally, we ask the AI: "Tell me about Tesla Model S".
+# The AI will fill out the form using the schema rules.
+# print() shows the organized result on the screen.
 print(structured_llm.invoke("Tell me about Tesla Model S"))
 
 ```
@@ -308,23 +310,45 @@ print(structured_llm.invoke("Tell me about Tesla Model S"))
 
 ✅ Example 6: Output Parser (when model doesn’t support)
 ```python
+# We import the tools we need:
+# - BaseModel: lets us create a "blueprint" for data (like a form).
+# - PydanticOutputParser: helps the AI's answer fit into our blueprint.
+# - PromptTemplate: helps us design the message (prompt) we send to the AI.
 from pydantic import BaseModel
 from langchain.output_parsers import PydanticOutputParser
 from langchain.prompts import PromptTemplate
 
+# Step 1: Create a blueprint for a joke.
+# The Joke class has two parts:
+# - setup: the beginning of the joke
+# - punchline: the funny ending
 class Joke(BaseModel):
     setup: str
     punchline: str
 
+# Step 2: Make a parser that takes the AI’s response
+# and makes sure it matches the Joke blueprint.
 parser = PydanticOutputParser(pydantic_object=Joke)
 
+# Step 3: Create a prompt (the message we send to the AI).
+# - template: what we ask the AI ("Tell me a joke").
+# - {format_instructions}: special instructions so the AI
+#   gives the answer in the exact format our parser needs.
+# - input_variables: none here, since we're not filling anything in.
+# - partial_variables: we give it the format instructions from our parser.
 prompt = PromptTemplate(
     template="Tell me a joke. {format_instructions}",
     input_variables=[],
     partial_variables={"format_instructions": parser.get_format_instructions()},
 )
 
+# Step 4: Send the prompt to the AI.
+# llm.invoke() asks the AI to tell a joke in the required format.
 output = llm.invoke(prompt.format())
+
+# Step 5: Parse the AI’s response.
+# parser.parse() takes the AI’s answer and turns it into a Joke object
+# with 'setup' and 'punchline' neatly filled in.
 print(parser.parse(output.content))
 
 ```
