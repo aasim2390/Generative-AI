@@ -134,10 +134,11 @@ llm = ChatOpenAI(model="gpt-4o-mini")
 # 3. `director`: The director of the movie. We use `NotRequired` here to
 #    tell the AI that this field is optional, and it's okay if it doesn't
 #    provide this information.
-class MovieDict(TypedDict):
-    title: str
-    year: int
-    director: NotRequired[str]  # Optional field
+class MovieDict(TypedDict, total=False):  # total=False => fields optional by default
+    title: Annotated[str, "The name of the movie"]
+    year: Annotated[int, "Release year"]
+    director: Annotated[str, "The director name"]   # Optional automatically
+
 
 # This is the most important part! We're telling the AI that when we ask it
 # to do something, we want the result to follow our `MovieDict` recipe card.
@@ -220,7 +221,7 @@ print(structured_llm.invoke("The book is Harry Potter by J.K. Rowling"))
 
 ✅ Example 4: Optional + Validation (Pydantic)
 ```python
-# First, we import the tools we'll need from the `pydantic` library.
+# First, we import the tools we'll need from the `pydantic` library - !pip install pydantic[email] -q
 # `BaseModel` is a powerful tool for creating organized data structures.
 # Think of it as a blueprint for how our data should look.
 # `Field` lets us add extra details to our blueprint, like a description or a default value.
@@ -277,7 +278,7 @@ print(structured_llm.invoke("My name is Alice"))
 ✅ Example 5: JSON Schema with Default
 ```python
 schema = {
-  "title": "Car Info",
+  "title": "CarInfo",  #Car Info gaves error, CarInfo working
   "type": "object",
   "properties": {
     "brand": {"type": "string"},
