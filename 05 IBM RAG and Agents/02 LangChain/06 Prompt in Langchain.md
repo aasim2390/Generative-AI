@@ -151,29 +151,64 @@ Saves tokens and improves relevance.
 Example:
 
 ```python
-from langchain_core.prompts import PromptTemplate
-from langchain_openai import OpenAIEmbeddings, ChatOpenAI
-from langchain.vectorstores import FAISS
+# Import tools from LangChain
+from langchain_core.prompts import PromptTemplate       # Used to create question-answer templates
+from langchain_openai import OpenAIEmbeddings, ChatOpenAI  # OpenAI models: embeddings (numbers for text) & chatbot
+from langchain.vectorstores import FAISS                # A database to store and search embeddings (fast search)
 
+
+# Example questions and answers (like a mini knowledge base)
 examples = [
     {"question": "What is GPT?", "answer": "GPT is a large language model."},
     {"question": "Define Transformer.", "answer": "Transformer is a neural model for sequence modeling."}
 ]
 
-# Build simple example store
-tpl = PromptTemplate.from_template("Q: {question}\nA: {answer}")
-docs = [tpl.format(**ex) for ex in examples]
+# Step 1: Build simple example store
+tpl = PromptTemplate.from_template("Q: {question}\nA: {answer}")  
+# ^ Creates a format where we can insert question and answer like: "Q: What is GPT? \n A: GPT is a large language model."
 
-emb = OpenAIEmbeddings()
-db = FAISS.from_texts(docs, emb)
+docs = [tpl.format(**ex) for ex in examples]  
+# ^ Fill the template with each example above
+# This gives us a list of text documents like:
+# ["Q: What is GPT?\nA: GPT is a large language model.", 
+#  "Q: Define Transformer.\nA: Transformer is a neural model for sequence modeling."]
 
-query = "Explain what a large language model is?"
-relevant = db.similarity_search(query, k=1)
 
-few_shot = "\n".join([d.page_content for d in relevant])
-prompt = f"{few_shot}\n\nQ: {query}\nA:"
-llm = ChatOpenAI()
-print(llm.invoke(prompt))
+# Step 2: Create embeddings and database
+emb = OpenAIEmbeddings()  
+# ^ Converts text into number vectors so computer can understand meaning
+
+db = FAISS.from_texts(docs, emb)  
+# ^ Stores those vectors into FAISS (a special library to search similar meanings fast)
+
+
+# Step 3: Ask a new question
+query = "Explain what a large language model is?"  
+# ^ User’s new question
+
+
+# Step 4: Search the database for most similar example
+relevant = db.similarity_search(query, k=1)  
+# ^ Finds 1 (k=1) most similar Q&A from our stored examples
+# For example, it will probably return the "What is GPT?" question and answer.
+
+
+# Step 5: Build the few-shot prompt
+few_shot = "\n".join([d.page_content for d in relevant])  
+# ^ Take the similar example(s) and join them into one text
+
+prompt = f"{few_shot}\n\nQ: {query}\nA:"  
+# ^ Create the final prompt:
+# Example (retrieved Q&A) + user’s question + "A:" for the model to continue
+
+
+# Step 6: Ask the ChatGPT model to answer
+llm = ChatOpenAI()  
+# ^ ChatGPT model (by OpenAI)
+
+print(llm.invoke(prompt))  
+# ^ Send the prompt to ChatGPT and print its answer
+
 
 ```
 
