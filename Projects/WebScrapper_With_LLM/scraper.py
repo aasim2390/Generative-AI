@@ -16,9 +16,9 @@ async def scrape_google_product(query: str, top_n: int = 3):
         # Search product
         await page.fill("textarea[name='q']", query)
         await page.keyboard.press("Enter")
-        await human_delay(1000, 15000)
+        await human_delay(800, 10000)
 
-        await page.wait_for_selector("//g-inner-card[@jscontroller]", timeout=45000)
+        await page.wait_for_selector("//g-inner-card[@jscontroller]", timeout=30000)
 
         cards = page.locator("//g-inner-card[@jscontroller]")
         count = await cards.count()
@@ -33,3 +33,4 @@ async def scrape_google_product(query: str, top_n: int = 3):
 
         await browser.close()
     return snippets
+
