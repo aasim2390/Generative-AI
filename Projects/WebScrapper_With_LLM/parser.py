@@ -12,7 +12,7 @@ def parse_product_html(html: str, expected_price: int = None) -> ProductInfo:
     Extract title, price, images from HTML snippet using regex.
     """
     # Title
-    title_match = re.search(r'aria-label="([^"]+)"', html)
+    title_match = re.search(r'title="([^"]+)"', html)
     title = title_match.group(1) if title_match else None
 
     # Price
@@ -33,3 +33,4 @@ def parse_product_html(html: str, expected_price: int = None) -> ProductInfo:
         images=images,
         isPriceMatch=isPriceMatch
     )
+
