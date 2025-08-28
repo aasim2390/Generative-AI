@@ -587,15 +587,15 @@ Final Strategy: Launch with a TikTok influencer campaign showcasing eco-friendly
 Tree of Thoughts (ToT) involves generating multiple reasoning branches to explore different solutions to a problem, evaluating each, and synthesizing the best ideas into a final answer. Each branch represents a distinct approach, which is explored, assessed for pros and cons, and scored. This method is ideal for complex, open-ended tasks like strategic planning, as it encourages creative exploration and systematic comparison, as shown in the marketing strategy example above.
 
 **🍔 Easy Analogy**
-    - Imagine you’re deciding what to eat:
-       - Branch 1: 🍕 Pizza (tasty but greasy)
-       - Branch 2: 🥗 Salad (healthy but boring)
-       - Branch 3: 🍔 Burger (balanced but heavy)
+Imagine you’re deciding what to eat:
+   - Branch 1: 🍕 Pizza (tasty but greasy)
+   - Branch 2: 🥗 Salad (healthy but boring)
+   - Branch 3: 🍔 Burger (balanced but heavy)
 
-   - Instead of picking only one, you might say:
-     👉 ***“I’ll have a burger with salad on the side” → best of both worlds!***
+Instead of picking only one, you might say:
+   - 👉 ***“I’ll have a burger with salad on the side” → best of both worlds!***
 
-   **That’s Tree of Thoughts in action. 🌳**
+**That’s Tree of Thoughts in action. 🌳**
 
 
 ## Best Practices for Effective Prompts
