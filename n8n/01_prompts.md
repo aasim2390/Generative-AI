@@ -32,7 +32,7 @@ You could ask:
 The second one is **prompt engineering**—clear, focused, and useful!
 
 
-# 🤖 Prompt Engineering vs. Context Engineering (8th Grader Friendly)
+# 🤖 Prompt Engineering vs. Context Engineering
 
 Imagine you’re **asking a teacher for help**:
 
@@ -85,9 +85,7 @@ You usually need **both**.
 
 ## 📝 Practical Tips
 
-# 📝 Breaking Down the Tips
-
-## 1. ✂️ Keep prompts short, clear, and testable
+#### 1. ✂️ Keep prompts short, clear, and testable
 Don’t write long, confusing instructions.  
 ➡️ Example: Instead of *“Can you maybe, if possible, summarize this text?”*  
 Say: *“Summarize this text in 3 bullet points.”*  
@@ -95,7 +93,7 @@ Say: *“Summarize this text in 3 bullet points.”*
 
 ---
 
-## 2. 🎯 Use few-shot examples only if they generalize
+#### 2. 🎯 Use few-shot examples only if they generalize
 “Few-shot” = giving AI a few examples of how to answer.  
 Use them only if they work for many cases.  
 ➡️ Example: Show AI how to turn 2–3 invoices into JSON, **if the pattern fits all invoices**.  
@@ -103,7 +101,7 @@ If not, better to store those examples in a **retrieval system** where the AI ca
 
 ---
 
-## 3. 📚 For context: optimize chunking, ranking, deduping
+#### 3. 📚 For context: optimize chunking, ranking, deduping
 - **Chunking** = cutting big documents into smaller pieces (like chapters → paragraphs).  
 - **Ranking** = choosing the most relevant chunks.  
 - **Deduping** = removing duplicates.  
@@ -111,14 +109,14 @@ If not, better to store those examples in a **retrieval system** where the AI ca
 
 ---
 
-## 4. 📖 Add citations and rules like *“Answer only from context”*
+#### 4. 📖 Add citations and rules like *“Answer only from context”*
 When truth matters, force the AI to stick to the given info.  
 ➡️ Example: *“Answer only from the attached policy. If unsure, say ‘Not in policy.’ Also cite the section number.”*  
 👉 This prevents the AI from guessing or making things up.
 
 ---
 
-## 5. 🧪 Test both layers separately
+#### 5. 🧪 Test both layers separately
 You need to check **prompt** and **context** independently:
 
 - **Prompt → A/B tests**  
@@ -129,16 +127,60 @@ You need to check **prompt** and **context** independently:
    - **Recall** = Did we find *all* the useful docs?  
    👉 This helps ensure the AI has the right knowledge.
 
+Got it 👍 Let’s make **Precision and Recall** stick in your mind with a **super simple and fun example**.
+
 ---
 
-# 🎯 In short:
+#### 🍫 Precision & Recall Explained with Chocolates
+
+Imagine you’re at a party, and there’s a big bowl full of chocolates. Some are **your favorite Dairy Milk**, and others are random candies you don’t like.
+
+---
+
+**🎯 Precision (Quality of your picks)**
+
+You pick **10 chocolates** from the bowl.
+
+* 7 are Dairy Milk 🍫 (your favorite)
+* 3 are random candies 🍬 (you don’t like)
+
+So, your **Precision = 7/10 = 70%**.
+👉 Precision asks: *“Of the things I picked, how many were correct?”*
+
+---
+
+**🔍 Recall (How many you actually found)**
+
+Suppose there were **20 Dairy Milk** chocolates in the bowl.
+But you only grabbed **7 of them**.
+
+So, your **Recall = 7/20 = 35%**.
+👉 Recall asks: *“Out of all the correct ones in the world, how many did I manage to get?”*
+
+---
+
+**⚖️ Trade-Off Example**
+
+* If you pick chocolates **very carefully** (high precision), you’ll avoid mistakes, but you might miss some Dairy Milk (low recall).
+* If you grab a **huge handful** (high recall), you’ll catch almost all Dairy Milk, but also lots of random candies (low precision).
+
+---
+
+✅ **Best Case** :
+Picking **all Dairy Milk** (high recall) and **no random candies** (high precision).
+That’s like being the perfect chocolate hunter.
+
+
+---
+
+#### 🎯 In short:
 - **Prompts** = Be clear and test different wordings.  
 - **Context** = Give the AI the right info, cleaned and organized.  
 - **Both** = Test them separately so you know what’s working.
 
 ---
 
-## 🎯 One-Liner
+#### 🎯 One-Liner
 
 👉 **Prompt engineering = how you ask**  
 👉 **Context engineering = what you show**  
@@ -182,6 +224,35 @@ Before diving into prompt techniques, understand these key parameters that contr
 - **Top-K**: Limits choices to top K most likely tokens
 - **Top-P**: Limits choices based on cumulative probability
 - Work together with temperature to control randomness
+---
+#### 🎲 Top-K vs Top-P — Simple Example + One-Liner
+
+#### Example: Next word after "I want to eat ___"
+
+**Word probabilities (just for example):**
+- Pizza = 40%  
+- Burger = 30%  
+- Pasta = 15%  
+- Ice cream = 10%  
+- Sushi = 5%  
+
+**🍕 Top-K (K = 3)**
+AI only keeps the **top 3 words**: Pizza, Burger, Pasta.  
+👉 It ignores Ice cream and Sushi completely.  
+
+
+**🍦 Top-P (P = 0.9)**
+AI adds words until the probabilities reach **90%**.  
+- Pizza (40%) + Burger (30%) + Pasta (15%) = 85% → still less than 90%  
+- Add Ice cream (10%) → now 95% total  
+👉 So shortlist = Pizza, Burger, Pasta, Ice cream  
+
+
+**📝 One-Liner**
+- **Top-K** = *“Pick from the top **K fixed choices**.”*  
+- **Top-P** = *“Pick from as many choices as needed until they cover **P% of probability**.”*  
+
+---
 
 **Recommended starting points:**
 - Conservative: Temperature 0.1, Top-P 0.9, Top-K 20
@@ -193,6 +264,8 @@ Before diving into prompt techniques, understand these key parameters that contr
 ### 1. Zero-Shot Prompting
 
 The simplest approach—just ask directly without examples.
+
+👉 Just ask directly, without giving any examples.
 
 **Example:**
 ```
@@ -208,6 +281,8 @@ Classify this movie review as positive, negative, or neutral:
 ### 2. One-Shot Prompting
 
 Provide a single example to guide the response format.
+You give the AI **one example** so it understands the **task** and the **answer format**.  
+👉 It’s like showing a sample question-answer before asking your real question.
 
 **Example:**
 ```
@@ -223,6 +298,9 @@ French:
 ### 3. Few-Shot Prompting
 
 Provide multiple examples to establish a clear pattern.
+You give the AI **several examples (3–5)** so it learns the **pattern** and applies it to new cases.  
+👉 Think of it like showing practice problems before giving the test question.
+
 
 **Example:**
 ```
@@ -247,6 +325,9 @@ JSON:
 ### 4. System Prompting
 
 Set overall context and behavior guidelines.
+**System prompting** sets the **overall role, tone, and behavior** of the AI before the user even asks a question.  
+👉 It’s like giving the AI a “job description” that it must follow throughout the conversation.
+
 
 **Example:**
 ```
@@ -262,6 +343,7 @@ User: Tell me about visiting Tokyo.
 ### 5. Role Prompting
 
 Assign a specific character or expertise to the AI.
+Role Prompting works by putting the AI into a specific persona or mindset so that its responses align with the expectations of that role.
 
 **Example:**
 ```
@@ -278,6 +360,12 @@ Act as an experienced software architect. I need help designing a scalable web a
 
 Provide specific background information relevant to the task.
 
+Think of contextual prompting like giving your friend extra background before asking them to do something.
+If you only say: *“Write an essay” → they’ll be confused.*
+But if you add context: *“Write a 200-word essay about space, for 5th graders, using fun examples”* → now they know exactly how to shape the answer.
+
+That’s what **contextual prompting** does for AI: **you set the stage so the AI responds the way you want.**
+
 **Example:**
 ```
 Context: You're writing for a tech blog aimed at beginners who have never coded before.
@@ -290,6 +378,8 @@ Write a 200-word explanation of what an API is, using simple language and practi
 ### Chain of Thought (CoT) Prompting
 
 Encourage step-by-step reasoning for complex problems.
+CoT is like telling the AI, “**show your work in simple steps**” for tricky problems.  
+(We’ll keep the steps short and clear, then give a separate final answer.)
 
 **Example:**
 ```
@@ -310,9 +400,16 @@ Let me think through this step by step:
 - Set temperature to 0 for consistent reasoning
 - Extract final answers separately from reasoning
 
-### Self-Consistency
+### Self-Consistency (Think of it as "Double-Checking with Friends")
 
 Generate multiple reasoning paths and select the most common answer.
+
+Instead of trusting one way of solving a problem, we try different ways. If most of them give the same answer, we pick that answer.
+
+**Steps (like teamwork):**
+   * Ask differently → Solve the same problem in 2–3 different ways.
+   * Compare results → See which answer shows up the most.
+   * Pick the winner → The ***most common answer** is usually the correct one.
 
 **Process:**
 1. Ask the same question multiple times with different phrasings
@@ -337,9 +434,17 @@ Most common answer: $40
 **Explanation of Concept:**
 Self-Consistency involves generating multiple answers to the same question using varied reasoning approaches to ensure reliability. By comparing the results, you select the most frequent or consistent outcome, reducing the chance of errors from a single flawed reasoning path. This method leverages the model's ability to approach the problem from different angles, increasing confidence in the final answer when all paths converge, as seen here with the consistent result of $40.
 
+**If most of your friends agree on the same answer, that’s probably the right one!**
+
 ### Step-Back Prompting
 
 Ask a more general question first, then use that context for the specific question.
+
+Step-Back Prompting is a reasoning technique where you first ask a broader, higher-level question to surface general principles or context, and then use that foundation to guide the answer to your specific problem.
+
+**How To Apply**
+   * **Step Back** → Ask a general/contextual question first.
+   * **Step Forward** → Use that general knowledge to address the specific problem.
 
 **Example 1:**
 ```
@@ -376,10 +481,21 @@ Response:
 **Explanation of Concept:**
 Step-Back Prompting involves first asking a broader, foundational question to establish key principles or context before tackling the specific task. This approach ensures the model grounds its response in general knowledge (e.g., factors affecting website speed) before applying it to the specific problem (e-commerce site optimization). By breaking the task into two steps, the model produces more informed and structured recommendations, reducing the risk of overlooking critical factors.
 
+**✅ In short: Step-Back Prompting = Zoom out to see the big picture → then zoom in for the solution.**
 
 ### ReAct (Reasoning + Acting)
 
 Combine reasoning with tool use or actions.
+
+ReAct combines reasoning traces ("Thought") with external actions ("Action") in a loop.
+This lets a model both think step by step and interact with the outside world (search, database, calculator, APIs, etc.) until it reaches an answer.
+
+**🛠️ The Cycle**
+   * **Thought** – the reasoning step, planning what to do next.
+   * **Action** – using a tool (search, API, calculator, SQL query, etc.).
+   * **Observation** – process and interpret the tool’s response.
+   * **Repeat** until the problem is solved.
+   * **Final Answer** – concise conclusion after reasoning + tool use.
 
 **Example 1:**
 ```
@@ -422,6 +538,12 @@ ReAct (Reasoning + Acting) is a prompting strategy that interleaves reasoning st
 
 Explore multiple reasoning branches simultaneously for complex problems.
 
+Instead of following **one straight path** of thinking, ToT lets you explore **multiple branches (different possible answers/approaches).**
+Then you compare them, pick the best, or even combine them.
+
+Think of it like brainstorming in branches → then trimming the tree down to the strongest ones.
+
+
 **When to use:**
 - Creative problem solving
 - Strategic planning
@@ -463,6 +585,17 @@ Final Strategy: Launch with a TikTok influencer campaign showcasing eco-friendly
 
 **Explanation of Concept:**
 Tree of Thoughts (ToT) involves generating multiple reasoning branches to explore different solutions to a problem, evaluating each, and synthesizing the best ideas into a final answer. Each branch represents a distinct approach, which is explored, assessed for pros and cons, and scored. This method is ideal for complex, open-ended tasks like strategic planning, as it encourages creative exploration and systematic comparison, as shown in the marketing strategy example above.
+
+**🍔 Easy Analogy**
+    - Imagine you’re deciding what to eat:
+       - Branch 1: 🍕 Pizza (tasty but greasy)
+       - Branch 2: 🥗 Salad (healthy but boring)
+       - Branch 3: 🍔 Burger (balanced but heavy)
+
+   - Instead of picking only one, you might say:
+     👉 ***“I’ll have a burger with salad on the side” → best of both worlds!***
+
+   **That’s Tree of Thoughts in action. 🌳**
 
 
 ## Best Practices for Effective Prompts
@@ -542,28 +675,63 @@ Context: This is for a {industry} company with {company_size} employees
 
 ### 1. Ambiguous Instructions
 
-**Problem:** Vague requests lead to unpredictable outputs
+**Problem:** Being too vague → AI doesn’t know what you want.
 **Solution:** Be specific about what you want
+
+✅ Example (Good):
+"Write a 100-word summary of the movie Titanic for a school project in simple English."
+
+❌ Example (Bad):
+"Tell me about Titanic." (Too broad!)
 
 ### 2. Contradictory Instructions
 
-**Problem:** Conflicting requirements confuse the model
-**Solution:** Review prompts for internal consistency
+**Problem:** Asking for two things that clash.
+**Solution:** Double-check your prompt for consistency.
+
+❌ Example (Bad):
+"Write a poem that is funny and serious at the same time."
+(Confusing – is it comedy or tragedy?)
+
+✅ Example (Good):
+"Write a funny poem about a serious subject, like exams."
+
 
 ### 3. Too Many Constraints
 
-**Problem:** Over-constraining limits model creativity
+**Problem:** Overloading the AI with “don’ts” → kills creativity.
 **Solution:** Focus on positive instructions rather than long lists of don'ts
+
+❌ Example (Bad):
+"Write a story, but don’t use magic, don’t use animals, don’t make it sad, don’t make it funny…"
+
+✅ Example (Good):
+"Write a realistic story about a student’s first day at a new school."
+
 
 ### 4. Ignoring Token Limits
 
-**Problem:** Responses get cut off mid-sentence
-**Solution:** Set appropriate limits and structure accordingly
+**Problem:** AI cuts off mid-sentence if prompt/answer is too long.
+**Solution:** Ask for shorter outputs or chunk tasks.
+
+❌ Example (Bad):
+"Write a 20-page book in one go."
+
+✅ Example (Good):
+"Write the first 300 words of a short story about space travel."
+
 
 ### 5. Not Testing Variations
 
-**Problem:** Assuming first attempt is optimal
+**Problem:** First prompt isn’t always the best.
 **Solution:** Test different phrasings, examples, and approaches
+
+Example:
+
+   - Prompt 1: "Explain photosynthesis simply."
+   - Prompt 2: "Explain photosynthesis to a 10-year-old using a cooking analogy."
+
+👉 The second one is often clearer and more fun!
 
 ## Hands-On Examples
 
@@ -676,6 +844,11 @@ Try variations:
 - Various instruction phrasings
 - Different temperature settings
 - Alternative output formats
+
+A/B testing = trying two (or more) prompt versions side by side to see which one works better.
+It’s like taste-testing two recipes: same ingredients (AI), but different instructions (prompts).
+
+**✨ Remember**: A/B testing is how you discover the sweet spot where the AI gives you exactly what you want.
 
 ### 3. Evaluate Results
 
@@ -809,7 +982,8 @@ Step 3: Write the full content based on outline
 
 Mixture-of-Experts (MoE) is a machine learning architecture designed to improve the efficiency and scalability of large models, particularly in the context of Large Language Models (LLMs). It draws from the concept of dividing complex tasks among specialized "experts" in a system, allowing the model to activate only a subset of its parameters for a given input rather than using the entire model every time. This sparse activation leads to computational savings while maintaining or even enhancing performance.
 
-![](./moe.webp)
+<img width="600" height="450" alt="image" src="https://github.com/user-attachments/assets/8df7c4cc-60da-4c1e-8da4-cb74a5df93ff" />
+
 
 
 #### MoE Implementation Status in Frontier Models
