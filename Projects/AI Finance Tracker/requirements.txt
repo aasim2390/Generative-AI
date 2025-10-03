@@ -1,0 +1,15 @@
+# Streamlit for frontend UI
+streamlit>=1.25.0
+
+# OpenAI for assistant and thread API
+openai>=1.1.0
+
+# MSSQL connector
+pyodbc>=4.0.40
+
+# Plotting libraries
+matplotlib>=3.7.2
+plotly>=5.20.0
+
+# Optional: dotenv for environment variables (if using .env for API keys)
+python-dotenv>=1.0.0
